@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/new_game"
+        android:title="FullScreen"/>
+    
+    <item
+        android:title="volume"
+        android:id="@+id/action_volume"
+        android:icon="@drawable/speaker"
+        android:orderInCategory="100"
+        android:showAsAction="always"/>
+</menu>
