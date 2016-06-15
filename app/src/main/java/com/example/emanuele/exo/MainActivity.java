@@ -51,7 +51,8 @@ public class MainActivity extends AppCompatActivity
         if (textureView != null) {
             textureView.setSurfaceTextureListener(this);
         }
-        preparePlayer(Uri.parse("http://qa.jwplayer.com/support-demos/static/bunny.mp4"));
+        preparePlayer(Uri.parse("http://videos-world.ak.token.bild.de/BILD/46/30/52/68/46305268,property=Video.mp4"));
+        setupVolumeSeekBar();
     }
 
     private void preparePlayer(Uri videoUri) {
@@ -79,6 +80,35 @@ public class MainActivity extends AppCompatActivity
 
     private void setCardProgressBarVisibility(final boolean visible) {
         findViewById(R.id.playback_progress_bar).setVisibility(visible ? View.VISIBLE : View.GONE);
+    }
+
+    private void setupVolumeSeekBar() {
+        if (mCardPlayer == null) {
+            return;
+        }
+        final SeekBar volumeSeekBar = (SeekBar) findViewById(R.id.volume_progress_bar);
+        if (volumeSeekBar == null) {
+            return;
+        }
+        volumeSeekBar.setProgress(100);
+        volumeSeekBar.setMax(100);
+        volumeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                mCardPlayer.setVolume(seekBar.getProgress() / 100f);
+            }
+        });
     }
 
 
@@ -134,6 +164,10 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_volume) {
             mCardPlayer.toggleVolume();
+        } else if (item.getItemId() == R.id.pause) {
+            mCardPlayer.pause();
+        } else if (item.getItemId() == R.id.play) {
+            mCardPlayer.start();
         }
         return true;
     }

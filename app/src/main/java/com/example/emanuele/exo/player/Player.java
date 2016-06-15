@@ -15,17 +15,19 @@ import java.util.List;
 /**
  * Created by emanuele on 13/06/16.
  */
-public interface Player extends 
+public interface Player extends
         ExoPlayer.Listener,
         ExtractorSampleSource.EventListener,
         MediaCodecVideoTrackRenderer.EventListener,
-        MediaCodecAudioTrackRenderer.EventListener {
+        MediaCodecAudioTrackRenderer.EventListener,
+        PlayBackInterface {
+    
     Handler getPlayerHandler();
-    
+
     void onRendererBuild(List<TrackRenderer> renderers, BandwidthMeter bandwidthMeter);
-    
+
     SurfaceTexture getSurfaceTexture();
-    
+
     void setSurfaceTexture(SurfaceTexture texture);
-    
+
 }

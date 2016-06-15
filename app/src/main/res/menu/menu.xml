@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    
     <item
-        android:id="@+id/new_game"
-        android:title="FullScreen"/>
+        android:id="@+id/pause"
+        android:title="pause"/>
+
+    <item
+        android:id="@+id/play"
+        android:title="play"/>
     
     <item
         android:title="volume"

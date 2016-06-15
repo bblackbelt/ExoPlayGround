@@ -21,7 +21,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 /**
  * Created by emanuele on 13/06/16.
  */
-public class CardPlayer implements Player, PlayBackInterface {
+public class CardPlayer implements Player {
 
 
     public interface CardPlayerListener {
@@ -45,7 +45,8 @@ public class CardPlayer implements Player, PlayBackInterface {
 
     private boolean mPlayWhenReady;
     private boolean mMute;
-    
+    private boolean mPlaying;
+
     public CardPlayer(RendererBuilder rendererBuilder) {
         mExoPlayer = ExoPlayer.Factory.newInstance(2, 1000, 5000);
         mExoPlayer.setPlayWhenReady(true);
@@ -64,7 +65,7 @@ public class CardPlayer implements Player, PlayBackInterface {
 
     @Override
     public void onPlayWhenReadyCommitted() {
-
+        mPlaying = mExoPlayer.getPlayWhenReady();
     }
 
     @Override
@@ -76,7 +77,6 @@ public class CardPlayer implements Player, PlayBackInterface {
 
     @Override
     public void onDroppedFrames(int count, long elapsed) {
-
     }
 
     @Override
@@ -225,6 +225,30 @@ public class CardPlayer implements Player, PlayBackInterface {
         } else {
             mute();
         }
+    }
+
+    @Override
+    public void setVolume(float volume) {
+        if (mExoPlayer == null || mAudioRender == null) {
+            return;
+        }
+        mExoPlayer.sendMessage(mAudioRender, MediaCodecAudioTrackRenderer.MSG_SET_VOLUME, volume);
+    }
+
+    @Override
+    public void pause() {
+        if (mExoPlayer == null || !mPlaying) {
+            return;
+        }
+        mExoPlayer.setPlayWhenReady(mPlaying = false);
+    }
+
+    @Override
+    public void start() {
+        if (mExoPlayer == null || mPlaying) {
+            return;
+        }
+        mExoPlayer.setPlayWhenReady(mPlaying = true);
     }
 
     public void clearSurface() {
